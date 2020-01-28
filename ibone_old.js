@@ -2,38 +2,38 @@ const cheerio = require('cheerio');
 const rp = require('request-promise');
 const url = 'https://www.ibon.com.tw/retail_inquiry.aspx#gsc.tab=0';
 const shopsInfo = require('./shopsInfo');
-// rp(url)
-    // .then(function (html) {
-    //     //success!
-    //     const $ = cheerio.load(html);
-    //     const locates = [];
-        // const body = $('body').html();
-        // console.log(body);
-        // $('.searchmap p').each(function (i, el) {
-        //     locates.push($(this).text())
-        // });
+rp(url)
+    .then(function (html) {
+        //success!
+        const $ = cheerio.load(html);
+        const locates = [];
+        const body = $('body').html();
+        console.log(body);
+        $('.searchmap p').each(function (i, el) {
+            locates.push($(this).text())
+        });
 
-        // return Promise.all(
-        //     locates.map(function (locates) {
-        //         return shopsInfo(locates)
-        //     })
-        // );
-    rp(url)
-        .then(function(html){
-            var options = {
-                method: 'POST',
-                uri: 'https://www.ibon.com.tw/retail_inquiry_ajax.aspx',
-                formData: {
-                    strTargetField: 'COUNTY',
-                    strKeyWords: '台北市',
-                }
-            }
-        })
-        return Promise.then(function(options){
-                console.log(options)
+        return Promise.all(
+            locates.map(function (locates) {
+                return shopsInfo(locates)
             })
+        );
+    // rp(url)
+    //     .then(function(html){
+    //         var options = {
+    //             method: 'POST',
+    //             uri: 'https://www.ibon.com.tw/retail_inquiry_ajax.aspx',
+    //             formData: {
+    //                 strTargetField: 'COUNTY',
+    //                 strKeyWords: '台北市',
+    //             }
+    //         }
+    //     })
+    //     return Promise.then(function(options){
+    //             console.log(options)
+    //         })
 
-    // })
+    })
     .then(function (shopsInfo) {
         console.log(shopsInfo);
     })
